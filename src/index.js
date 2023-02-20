@@ -25,7 +25,7 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Expense Tracker</title>
+        {/*         <title>Expense Tracker</title> */}
         <link rel="icon" href={logo} />
       </Helmet>
       <BrowserRouter>
@@ -36,7 +36,7 @@ const Index = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/edit/:id" element={<EditExpenses />} />
             <Route path="/expenditure" element={<Expenditure />} />
-            <Route path="/expenses-by-category" element={<ExpenseByCategory />} />
+            <Route path="/categories" element={<ExpenseByCategory />} />
             <Route path="/expenses-list" element={<ExpenseList />} />
           </Routes>
         </Container>
