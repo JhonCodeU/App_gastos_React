@@ -1,8 +1,8 @@
 import React from 'react';
 import { Helmet } from "react-helmet";
 import Boton from './elements/Boton';
-import { ContenedorBoton, ContenedorFiltros, Formulario, Input, InputGrande } from './elements/ElementsOfForm';
-import { ContenedorBotones, ContenedorHeader, Header, Titulo } from './elements/Header';
+import { ContenedorBoton, Formulario, Input } from './elements/ElementsOfForm';
+import { ContenedorHeader, Header, Titulo } from './elements/Header';
 import { ReactComponent as SvgLogin } from '../images/registro.svg';
 import styled from 'styled-components';
 
