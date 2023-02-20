@@ -11,6 +11,9 @@ import EditExpenses from './components/expenses/EditExpenses';
 import Expenditure from './components/expenses/Expenditure';
 import ExpenseByCategory from './components/expenses/ExpensesByCategory';
 import ExpenseList from './components/expenses/ExpensesList';
+import { Helmet } from "react-helmet";
+import logo from './images/logo.png';
+import Background from './components/elements/Background';
 
 WebFont.load({
   google: {
@@ -20,19 +23,27 @@ WebFont.load({
 
 const Index = () => {
   return (
-    <BrowserRouter>
-      <Container>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/edit/:id" element={<EditExpenses />} />
-          <Route path="/expenditure" element={<Expenditure />} />
-          <Route path="/expenses-by-category" element={<ExpenseByCategory />} />
-          <Route path="/expenses-list" element={<ExpenseList />} />
-        </Routes>
-      </Container>
-    </BrowserRouter>
+    <>
+      <Helmet>
+        <title>Expense Tracker</title>
+        <link rel="icon" href={logo} />
+      </Helmet>
+      <BrowserRouter>
+        <Container>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/edit/:id" element={<EditExpenses />} />
+            <Route path="/expenditure" element={<Expenditure />} />
+            <Route path="/expenses-by-category" element={<ExpenseByCategory />} />
+            <Route path="/expenses-list" element={<ExpenseList />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+
+      <Background />
+    </>
   );
 }
 
