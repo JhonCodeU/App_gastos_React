@@ -14,6 +14,7 @@ import ExpenseList from './components/expenses/ExpensesList';
 import { Helmet } from "react-helmet";
 import logo from './images/logo.png';
 import Background from './components/elements/Background';
+import { AuthProvider } from './context/AuthContext';
 
 WebFont.load({
   google: {
@@ -28,19 +29,22 @@ const Index = () => {
         {/*         <title>Expense Tracker</title> */}
         <link rel="icon" href={logo} />
       </Helmet>
-      <BrowserRouter>
-        <Container>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/edit/:id" element={<EditExpenses />} />
-            <Route path="/expenditure" element={<Expenditure />} />
-            <Route path="/categories" element={<ExpenseByCategory />} />
-            <Route path="/expenses-list" element={<ExpenseList />} />
-          </Routes>
-        </Container>
-      </BrowserRouter>
+
+      <AuthProvider>
+        <BrowserRouter>
+          <Container>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/edit/:id" element={<EditExpenses />} />
+              <Route path="/expenditure" element={<Expenditure />} />
+              <Route path="/categories" element={<ExpenseByCategory />} />
+              <Route path="/expenses-list" element={<ExpenseList />} />
+            </Routes>
+          </Container>
+        </BrowserRouter>
+      </AuthProvider>
 
       <Background />
     </>
