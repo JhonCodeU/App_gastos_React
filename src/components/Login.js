@@ -84,12 +84,12 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Create Account</title>
+        <title>Login</title>
       </Helmet>
 
       <Header>
         <ContenedorHeader>
-          <Titulo>Create Account</Titulo>
+          <Titulo>Login</Titulo>
           <div>
             <Boton to="/register">Register</Boton>
           </div>
