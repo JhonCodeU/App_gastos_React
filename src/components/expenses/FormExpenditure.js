@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { ContenedorFiltros, Formulario, Input, InputGrande, ContenedorBoton } from '../elements/ElementsOfForm';
 import Boton from '../elements/Boton';
 import { ReactComponent as IconPlus } from '../../images/plus.svg';
+import SelectCategories from './SelectCategories';
 
 const FormExpenditure = () => {
 
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('hogar');
 
   const handleChangeAmount = (e) => {
     console.log(e.target.value);
@@ -16,7 +18,7 @@ const FormExpenditure = () => {
   return (
     <Formulario>
       <ContenedorFiltros>
-        <p>Select</p>
+        <SelectCategories category={category} setCategory={setCategory} />
         <p>Picker Date</p>
       </ContenedorFiltros>
 
