@@ -3,6 +3,7 @@ import { Header, Titulo } from '../elements/Header';
 import { Helmet } from "react-helmet";
 import BtnReturn from '../elements/BtnReturn';
 import { useAuth } from '../../context/AuthContext';
+import ToalBarSpent from './TotalBarSpent';
 
 const ExpenseList = () => {
 
@@ -19,6 +20,8 @@ const ExpenseList = () => {
         <BtnReturn />
         <Titulo>Expenses List</Titulo>
       </Header>
+
+      <ToalBarSpent />
     </>
   );
 }
