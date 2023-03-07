@@ -8,6 +8,7 @@ import addExpenditure from '../../firebase/addExpenditure';
 //import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import { useAuth } from '../../context/AuthContext';
+import Alert from '../elements/Alert';
 
 const FormExpenditure = () => {
 
@@ -16,25 +17,60 @@ const FormExpenditure = () => {
   const [category, setCategory] = useState('hogar');
   const [date, setDate] = useState(new Date());
   const { user } = useAuth();
+  const [alert, setAlert] = useState({});
 
   const handleChangeAmount = (e) => {
     console.log(e.target.value);
     setAmount(e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let amountConverted = parseFloat(amount).toFixed(2);
+    // checking description and amount
+    if (description.trim() === '' || amount.trim() === '') {
 
-    addExpenditure({
-      description,
-      amount: amountConverted,
-      category,
-      date: getUnixTime(date),
-      uidUser: user.uid
-    });
+      if (!amountConverted) {
+        setAlert({
+          type: 'error',
+          message: 'Please, add a valid amount'
+        });
+        return;
+      }
 
+      setAlert({
+        type: 'error',
+        message: 'Please, add description or amount'
+      });
+      return;
+    }
+
+    try {
+      await addExpenditure({
+        description,
+        amount: amountConverted,
+        category,
+        date: getUnixTime(date),
+        uidUser: user.uid
+      });
+
+      setDescription('');
+      setAmount('');
+      setCategory('hogar');
+      setDate(new Date());
+      setAlert({
+        type: 'success',
+        message: 'Expenditure added successfully'
+      });
+
+    } catch (error) {
+      console.log(error);
+      setAlert({
+        type: 'error',
+        message: 'There was an error, try again'
+      });
+    }
   }
 
   return (
@@ -54,7 +90,7 @@ const FormExpenditure = () => {
           onChange={e => setDescription(e.target.value)}
         />
         <InputGrande
-          type="number"
+          type="text"
           placeholder="$0.00"
           name="amount"
           id='amount'
@@ -67,6 +103,12 @@ const FormExpenditure = () => {
           Add Expenditure <IconPlus />
         </Boton>
       </ContenedorBoton>
+      {alert.message && <Alert
+        type={alert.type}
+        message={alert.message}
+        alertState={alert}
+        changeAlertState={setAlert}
+      />}
     </Formulario>
   );
 }

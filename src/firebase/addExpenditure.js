@@ -4,16 +4,16 @@ import { collection, addDoc } from "firebase/firestore";
 const addExpenditure = async ({ description, amount, category, date, uidUser }) => {
   console.log(description, amount, category, date, uidUser);
   try {
-    const docRef = await addDoc(collection(db, "expenses"), {
+
+    const expense = await addDoc(collection(db, "expenses"), {
       description,
       amount,
       category,
       date,
       uidUser
     });
+    console.log("Document written with ID: ", expense.id);
 
-    console.log("Document written with ID: ", docRef.id);
-    return docRef;
   } catch (e) {
     console.error("Error adding document: ", e);
   }

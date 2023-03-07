@@ -79,6 +79,12 @@ const SelectCategories = ({ category, setCategory }) => {
     setCategory(e.target.dataset.category);
   }
 
+  const handleOptionClick = (id, e) => {
+    e && e.stopPropagation();
+    setCategory(id);
+    setShowOptions(false);
+  }
+
   return (
     <ContenedorSelect onClick={() => setShowOptions(!showOptions)}>
       <OpcionSeleccionada>
@@ -95,7 +101,7 @@ const SelectCategories = ({ category, setCategory }) => {
               onClick={handleCategory}
             >
               <IconCategory name={id} />
-              <p>{texto}</p>
+              <p onClick={(e) => { handleOptionClick(id, e) }}>{texto}</p>
             </Opcion>
           ))}
         </Opciones>
