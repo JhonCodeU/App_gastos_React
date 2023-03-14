@@ -2,12 +2,12 @@ import { db } from '../firebase/firebaseConfig'
 import { collection, addDoc } from "firebase/firestore";
 
 const addExpenditure = async ({ description, amount, category, date, uidUser }) => {
-  console.log(description, amount, category, date, uidUser);
+  //console.log(description, amount, category, date, uidUser);
   try {
 
     const expense = await addDoc(collection(db, "expenses"), {
       description,
-      amount,
+      amount: Number(amount),
       category,
       date,
       uidUser

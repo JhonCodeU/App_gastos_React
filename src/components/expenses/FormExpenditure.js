@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ContenedorFiltros, Formulario, Input, InputGrande, ContenedorBoton } from '../elements/ElementsOfForm';
 import Boton from '../elements/Boton';
 import { ReactComponent as IconPlus } from '../../images/plus.svg';
+import { ReactComponent as IconEdit } from '../../images/editar.svg';
 import SelectCategories from './SelectCategories';
 import DatePicker from '../Date/DatePicker';
 import addExpenditure from '../../firebase/addExpenditure';
-//import fromUnixTime from 'date-fns/fromUnixTime';
+import editExpenditure from '../../firebase/editExpenditure';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import { useAuth } from '../../context/AuthContext';
 import Alert from '../elements/Alert';
+import { useNavigate } from 'react-router-dom';
 
-const FormExpenditure = () => {
+const FormExpenditure = ({ expense }) => {
 
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
@@ -18,6 +21,20 @@ const FormExpenditure = () => {
   const [date, setDate] = useState(new Date());
   const { user } = useAuth();
   const [alert, setAlert] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (expense) {
+      if (expense.uidUser === user.uid) {
+        setDescription(expense.description);
+        setAmount(String(expense.amount));
+        setCategory(expense.category);
+        setDate(fromUnixTime(expense.date));
+      } else {
+        navigate('expenses-list');
+      }
+    }
+  }, [expense, user, navigate]);
 
   const handleChangeAmount = (e) => {
     console.log(e.target.value);
@@ -47,13 +64,26 @@ const FormExpenditure = () => {
     }
 
     try {
-      await addExpenditure({
-        description,
-        amount: amountConverted,
-        category,
-        date: getUnixTime(date),
-        uidUser: user.uid
-      });
+
+      if (expense) {
+        await editExpenditure({
+          id: expense.id,
+          description,
+          amount: amountConverted,
+          category,
+          date: getUnixTime(date),
+          uidUser: user.uid
+        });
+        navigate('/expenses-list');
+      } else {
+        await addExpenditure({
+          description,
+          amount: amountConverted,
+          category,
+          date: getUnixTime(date),
+          uidUser: user.uid
+        });
+      }
 
       setDescription('');
       setAmount('');
@@ -100,7 +130,18 @@ const FormExpenditure = () => {
       </div>
       <ContenedorBoton>
         <Boton as="button" primario conIcono type="submit">
-          Add Expenditure <IconPlus />
+          {expense && (
+            <>
+              Edit Expenditure
+              <IconEdit />
+            </>
+          )}
+          {!expense && (
+            <>
+              Add Expenditure
+              <IconPlus />
+            </>
+          )}
         </Boton>
       </ContenedorBoton>
       {alert.message && <Alert

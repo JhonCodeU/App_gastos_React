@@ -17,7 +17,6 @@ const useGetExpenses = () => {
     onSnapshot(q, (querySnapshot) => {
       const docs = [];
 
-      console.log(querySnapshot.docs);
       if (querySnapshot.docs.length > 0) {
         setLastExpense(querySnapshot.docs[querySnapshot.docs.length - 1]);
 
