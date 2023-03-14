@@ -1,15 +1,12 @@
 import React from 'react'
 import { Header, Titulo } from '../elements/Header';
 import { Helmet } from "react-helmet";
-import BtnReturn from '../elements/BtnReturn';
-import { useAuth } from '../../context/AuthContext';
+import BtnReturn from '../elements/BtnReturn'
 import ToalBarSpent from './TotalBarSpent';
 import useGetExpenses from '../../hooks/useGetExpenses';
 import {
   Lista,
   ElementoLista,
-  ListaDeCategorias,
-  ElementoListaCategorias,
   Categoria,
   Descripcion,
   Valor,
@@ -31,7 +28,7 @@ import { format, fromUnixTime } from 'date-fns';
 
 const ExpenseList = () => {
 
-  const [expenses] = useGetExpenses();
+  const [expenses, getMoreExpenses, ThereAreMoreExpensesToLoad] = useGetExpenses();
   //const { user } = useAuth();
 
   const formatDate = ({ date }) => {
@@ -96,11 +93,13 @@ const ExpenseList = () => {
           </div>
         ))}
 
-        <ContenedorBotonCentral>
-          <BotonCargarMas>
-            Load More
-          </BotonCargarMas>
-        </ContenedorBotonCentral>
+        {ThereAreMoreExpensesToLoad && (
+          <ContenedorBotonCentral>
+            <BotonCargarMas onClick={() => getMoreExpenses()}>
+              Load More
+            </BotonCargarMas>
+          </ContenedorBotonCentral>
+        )}
 
         {expenses.length === 0 && (
           <ContenedorSubtitulo>
